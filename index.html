@@ -4,9 +4,27 @@
 <link rel="stylesheet" type="text/css" href="/public/css/bootstrap.min.css" />
 </head>
 <body>
-<form action="welcome" method="get">
-<input name="hello" placeholder="Enter your name" autofocus/><br />
-<input type="submit" value="Join" />
-</form>
+	<div class="navbar">
+		<div class="navbar-inner">
+			<a class="brand" href="#">Group Chat</a>
+			<ul class="nav">
+				<li class="active"><a href="#">Home</a></li>
+				<li><a href="#">Link</a></li>
+				<li><a href="#">Link</a></li>
+			</ul>
+		</div>
+	</div>
+	<div class="row-fluid"><div class="span12"></div></div>
+	<div class="row-fluid"><div class="span12"></div></div>
+	<div class="row-fluid">
+		<div class="offset2 span4">
+			<h4>Username</h4>
+			<form action="welcome" method="get">
+				<input name="hello" placeholder="Enter your name" autofocus/>
+				
+				<input type="submit" class="btn-primary" value="Join" />
+			</form>
+		</div>
+	</div>
 </body>
 </html>

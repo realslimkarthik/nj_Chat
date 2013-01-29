@@ -8,9 +8,7 @@ function route(handle, pathName, response, getData) {
         handle['/js'](response, pathName);
     else if(pathName.indexOf(".css")!=-1)
         handle['/css'](response, pathName);
-    else if(pathName.indexOf(".tpl")!=-1)
-        handle['/tpl'](response, pathName);
-    else { 
+    else {
         console.log("No request handler found for " + pathName);
         response.writeHead(404, {"Content-Type": "text/plain"});
         response.write("404\nPage Not Found");

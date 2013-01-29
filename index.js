@@ -10,6 +10,5 @@ handle["/js"] = requestHandlers.js;
 handle["/css"] = requestHandlers.css;
 handle["/converse"] = requestHandlers.converse;
 handle["/talk"] = requestHandlers.talk;
-handle["/tpl"] = requestHandlers.tpl;
 
 server.start(router.route, handle);

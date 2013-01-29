@@ -88,13 +88,6 @@ function css(response, fileName) {
     response.end();
 }
 
-function tpl(response, fileName) {
-    response.writeHead(200, {"Content-Type": "text/template"});
-    fileName = "." + fileName;
-    response.write(fs.readFileSync(fileName));
-    response.end();
-}
-
 function call() {
     console.log("Request handler '" + call.caller.name + "' was called");
 }
@@ -105,4 +98,3 @@ exports.js = js;
 exports.css = css;
 exports.talk = talk;
 exports.converse = converse;
-exports.tpl = tpl;
