@@ -1,0 +1,1 @@
+<p>{{sender}}: {{message}}</p>

@@ -23,7 +23,7 @@ function start(route, handle) {
 
 	io = io.listen(app);
 
-	io.sockets.on("connect", function(socket) {
+	io.sockets.on("connection", function(socket) {
 		console.log("Connection established");
 		socket.on("receive", function(data) {
 			console.log(data + " received");
