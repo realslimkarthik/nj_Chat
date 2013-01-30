@@ -7,10 +7,10 @@ var path = require("path");
 var mysql = require("mysql");
 
 var connection = mysql.createConnection({
-    host: 'localhost',
-    user: 'root',
-    password: 'karthik',
-    database: 'nj_chat'
+    host: '', //Host name
+    user: '', //User name
+    password: '', //Password
+    database: '' //Database
 });
 
 //var index = fs.welcomeFileSync("index.html");
