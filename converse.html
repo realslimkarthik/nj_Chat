@@ -2,14 +2,31 @@
 <html>
 <head>
 <meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\" />
-<link rel="stylesheet" type="text/css" href="/public/css/bootstrap.min.css" />
+<link rel="stylesheet" type="text/css" href="/public/css/bootstrap.css" />
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
 <script type="text/javascript" src="/public/js/jquery-1.9.0.min.js"></script>
 <script type="text/javascript" src="/socket.io/socket.io.js"></script>
 <script type="text/javascript" src="/public/js/chat.js"></script>
 <script type="text/javascript" src="/public/js/mustache.js"></script>
+<style type="text/css">
+	.brand {
+		font-family: 'Quicksand', sans-serif;
+	}
+	</style>
 </head>
 <body>
+	<div class="navbar navbar-inverse">
+		<div class="navbar-inner">
+			<div class="row-fluid">
+				<div class="span2">
+					<a class="brand" href="#">Group Chat</a>
+				</div>
+				<div class="offset8 span2">
+					<a class="brand" target="blank" href="https://github.com/the-real-slim-Karthik">realslimkarthik</a>
+				</div>
+			</div>
+		</div>
+	</div>
         <p>Hi <strong id="user">{{name}}</strong></p>
         <div id="convo">
         </div>
