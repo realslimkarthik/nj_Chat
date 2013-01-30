@@ -7,10 +7,10 @@ var path = require("path");
 var mysql = require("mysql");
 
 var connection = mysql.createConnection({
-    host: '', //Host name
-    user: '', //User name
-    password: '', //Password
-    database: '' //Database
+    host: '',
+    user: '',
+    password: '',
+    database: ''
 });
 
 //var index = fs.welcomeFileSync("index.html");
@@ -67,15 +67,28 @@ function welcome(response, getData) {
     name = fs.readFileSync("./welcome.html");
 
     getData = querystring.parse(getData);
-    
-    //var userName = {username :getData};
-    //connection.query('INSERT INTO user SET?', userName);
+    var data = {};
+    var userName = {username :getData};
+    connection.query('INSERT INTO user SET?', userName);
 
-    var html = Mustache.render(String(name), getData);
-    console.log("this is received: " + getData);
+    connection.query('SELECT * from rooms', function(err, rows) {
+        if(err) throw err;
+        console.log("the available rooms are " + rows[0]['roomname']);
+        if(rows[0]!=undefined) {
+            roomName = [];
+            rows.forEach(function(row) {
+                roomName.push(row['roomname']);
+            });
+            data = {username: getData['username'], rooms: roomName};
+        }
+        else
+            data = {username: getData['username'], rooms: ""};
+        var html = Mustache.render(String(name), data);
+        console.log("this is received: " + getData);
 
-    response.writeHead(200, {"Content-Type": "text/html"});
-    response.end(html, "utf-8");
+        response.writeHead(200, {"Content-Type": "text/html"});
+        response.end(html, "utf-8");
+    });
 }
 
 function converse(response, getData) {
