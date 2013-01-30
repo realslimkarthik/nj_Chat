@@ -68,8 +68,7 @@ function welcome(response, getData) {
 
     getData = querystring.parse(getData);
     var data = {};
-    var userName = {username :getData};
-    connection.query('INSERT INTO user SET?', userName);
+    connection.query('INSERT INTO user SET?', getData);
 
     connection.query('SELECT * from rooms', function(err, rows) {
         if(err) throw err;
