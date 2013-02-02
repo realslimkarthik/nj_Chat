@@ -1,7 +1,7 @@
 var express = require('express');
 var fs = require('fs');
 var mysql = require('mysql');
-var Mustache = require('./public/js/mustache');
+var Mustache = require('./public/js/mustache.js');
 
 var app = express(),
 	http = require('http'),
@@ -81,7 +81,49 @@ app.post('/createUser', function(req, res) {
 });
 
 app.post('/createRoom', function(req, res) {
-	var data = {roomname: req.param('cRoom')};
+	console.log('Roomname ' + req.param('cRoom') + '\n Username ' + req.param('username'));
 
-	connection.query('INSET INTO rooms SET?', data);
+	var data = {roomname: req.param('cRoom')};
+	var udata = {username: req.param('username')};
+
+	connection.query('INSERT INTO rooms SET?', data);
+	console.log('1st insert');
+	connection.query('CREATE TABLE ' + data['roomname'] + '(username varchar(200) NOT NULL)');
+	console.log('1st create');
+	connection.query('INSERT INTO ' + data['roomname'] + ' SET?', udata);
+	console.log('2nd insert');
+	res.redirect('/joinChat?username=' + udata['username'] + '&roomname=' + data['roomname'] + '&create=0');
 });
+
+app.get('/joinChat', function(req, res) {
+	var data = {roomname: req.param('roomname'), username: req.param('username')};
+	if(req.param('create')) {
+		connection.query('INSERT INTO ' + data['roomname'] + ' SET?', data['username']);
+		console.log('3rd insert');
+	}
+	var file = fs.readFileSync('./converse.html');
+	var html = Mustache.to_html(String(file), data);
+	res.send(html);
+});
+
+app.get('/exit', function(req, res) {
+	var room = {roomname: req.param('roomname')};
+	connection.query('DELETE FROM rooms where roomname=?', room);
+	connection.query('SELECT count(username) from ' + room['roomname'], function(err, rows) {
+		if(err) throw err;
+		if(rows[0] == 0)
+			connection.query('DROP TABLE ' + room['roomname']);
+	});
+});
+
+io.sockets.on('connection', function(socket) {
+	while(1) {
+		connection.query('SELECT * FROM rooms', function(err, rows) {
+			rows.forEach(function(row) {
+				socket.on(row, function(data) {
+					io.sockets.emit(row, data);
+				});
+			});
+		});
+	}
+})

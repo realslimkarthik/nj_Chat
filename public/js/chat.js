@@ -1,5 +1,7 @@
 var socket = io.connect("http://localhost");
-
+var roomName = $("#room");
+var userName = $("#user");
+/*
 window.onload = function() {
         var conv = document.getElementById("convo");
         var sendButton = document.getElementById("send");
@@ -23,10 +25,10 @@ window.onload = function() {
                 }
         };
 };
+*/
 
-/*
 $(document).ready(function() {
-        socket.on("groupChat", function(data) {
+        socket.on(roomName, function(data) {
                 var tmpl = "<p>{{sender}} : {{message}}</p>"
                 var html = Mustache.to_html(tmpl, data);
                 $("#convo").append(html);
@@ -36,9 +38,17 @@ $(document).ready(function() {
                         var sendr = $("#user").html();
                         var mess = $("#message").val();
                         var line = {sender: sendr, message: mess};
-                        socket.emit("receive", line);
+                        socket.emit(roomName, line);
                         $("#message").val("");
                 }
         });
+        $("#exit").click(function() {
+                var leave = {roomname: roomName, username: userName};
+                $.ajax({
+                        url: "exit",
+                        data: leave,
+                }).done(function(data) {
+                        window.close();
+                });
+        });
 });
-*/
