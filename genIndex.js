@@ -65,7 +65,6 @@ app.post('/createUser', function(req, res) {
 
 	connection.query('SELECT * from rooms', function(err, rows) {
         if(err) throw err;
-        console.log("the available rooms are " + rows[0]['roomname']);
         if(rows[0]!=undefined) {
             roomName = [];
             rows.forEach(function(row) {
@@ -83,13 +82,10 @@ app.post('/createUser', function(req, res) {
 app.post('/createRoom', function(req, res) {
 	console.log('Roomname ' + req.param('cRoom') + '\n Username ' + req.param('username'));
 
-	var data = {roomname: req.param('cRoom')};
-	var udata = {username: req.param('username')};
+	var data = {roomname: req.param('cRoom'), username: req.param('username')};
 
 	connection.query('INSERT INTO rooms SET?', data);
 	console.log('1st insert');
-	connection.query('CREATE TABLE ' + data['roomname'] + '(username varchar(200) NOT NULL)');
-	console.log('1st create');
 	connection.query('INSERT INTO ' + data['roomname'] + ' SET?', udata);
 	console.log('2nd insert');
 	res.redirect('/joinChat?username=' + udata['username'] + '&roomname=' + data['roomname'] + '&create=0');
@@ -97,12 +93,13 @@ app.post('/createRoom', function(req, res) {
 
 app.get('/joinChat', function(req, res) {
 	var data = {roomname: req.param('roomname'), username: req.param('username')};
-	if(req.param('create')) {
+	if(req.param('create') == 1) {
 		connection.query('INSERT INTO ' + data['roomname'] + ' SET?', data['username']);
 		console.log('3rd insert');
 	}
 	var file = fs.readFileSync('./converse.html');
 	var html = Mustache.to_html(String(file), data);
+	//startChat();
 	res.send(html);
 });
 
@@ -114,17 +111,5 @@ app.get('/exit', function(req, res) {
 		if(rows[0] == 0)
 			connection.query('DROP TABLE ' + room['roomname']);
 	});
+	res.sendfile('./logout');
 });
-/*
-io.sockets.on('connection', function(socket) {
-	while(1) {
-		connection.query('SELECT * FROM rooms', function(err, rows) {
-			rows.forEach(function(row) {
-				socket.on(row, function(data) {
-					io.sockets.emit(row, data);
-				});
-			});
-		});
-	}
-});
-*/
