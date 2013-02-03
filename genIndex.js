@@ -115,7 +115,7 @@ app.get('/exit', function(req, res) {
 			connection.query('DROP TABLE ' + room['roomname']);
 	});
 });
-
+/*
 io.sockets.on('connection', function(socket) {
 	while(1) {
 		connection.query('SELECT * FROM rooms', function(err, rows) {
@@ -126,4 +126,5 @@ io.sockets.on('connection', function(socket) {
 			});
 		});
 	}
-})
+});
+*/
